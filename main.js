@@ -1,37 +1,46 @@
-function a() {
-  console.log("a run");
-}
+// function a() {
+//   console.log("a run");
+// }
 
-function b() {
-  console.log("b run");
-  a();
-}
+// function b() {
+//   console.log("b run");
+//   a();
+// }
 
-function c() {
-  console.log("c run");
-  b();
-}
+// function c() {
+//   console.log("c run");
+//   b();
+// }
 
-c();
+// c();
 
-function a() {
-  console.log("a");
-}
+// function a() {
+//   console.log("a");
+// }
 
-function b() {
-  setTimeout(() => {
-    for (let i = 0; i < 10000000; i++) {}
-    console.log("b");
-  }, 0);
-}
+// function b(fn) {
+//   setTimeout(() => {
+//     for (let i = 0; i < 10000000; i++) {}
+//     console.log("b");
+//     fn("b output");
+//     // return "b output";
+//   }, 0);
+// }
 
-function c() {
-  console.log("c");
-}
+// function c() {
+//   console.log("c");
+// }
 
-a();
-b();
-c();
+// function d(input) {
+//   console.log("d output", input);
+// }
+
+// If I want the output from aync fn b as a param of fn d (input)
+// Add a param as callback fn and call fn in setTimeout and input value to fn
+// a();
+// b(d); // pass d as callback fn to b
+// c();
+// d(b()); // d output undefined
 
 // setTimeout(() => {
 //   console.log("execute 3");
@@ -44,3 +53,91 @@ c();
 // setTimeout(() => {
 //   console.log("execute 2");
 // }, 1000);
+
+// ES Module
+// import { readFile } from "fs";
+
+// Common JS
+const { readFile } = require("fs");
+// readFile("user.jso", { encoding: "utf-8" }, function (err, data) {
+//   console.log(err);
+//   console.log(data);
+// });
+
+// readFile("user.json", "utf-8", function (err1, data1) {
+//   // console.log(typeof data);
+//   const parsedData1 = JSON.parse(data1);
+//   // const str = JSON.stringify({ desc: "Hello" });
+//   console.log(parsedData1.firstName);
+//   readFile("product.json", "utf-8", function (err2, data2) {
+//     const parsedData2 = JSON.parse(data2);
+//     console.log(parsedData2.name);
+//     console.log(parsedData1.firstName + ":" + parsedData2.name);
+//   });
+// });
+
+// readFile("user.json", "utf-8", function (err1, data1) {
+//   // console.log(typeof data);
+//   const parsedData1 = JSON.parse(data1);
+//   // const str = JSON.stringify({ desc: "Hello" });
+//   console.log(parsedData1.firstName);
+// });
+
+// readFile("product.json", "utf-8", function (err2, data2) {
+//   const parsedData2 = JSON.parse(data2);
+//   console.log(parsedData2.name);
+//   // console.log(parsedData1.firstName + ":" + parsedData2.name);
+// });
+
+// console.log(parsedData1.firstName + ":" + parsedData2.name);
+
+function a() {
+  console.log("a");
+}
+
+function b(age) {
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      for (let i = 0; i < 10_000_000; i++) {}
+      console.log("b");
+      if (age >= 18) {
+        resolve("success");
+      } else {
+        reject("less than 18");
+      }
+    }, 0);
+  });
+  return promise;
+}
+
+function c() {
+  console.log("c");
+}
+
+function d(input) {
+  console.log(input);
+}
+
+// a();
+// b(20);
+// c();
+// d(b(20)); // Promise { <pending> }
+
+const p = b(20);
+// p.then((response) => {
+//   console.log(response);
+// });
+
+// p.catch((err) => {
+//   console.log(err);
+// });
+
+p.then((response) => {
+  console.log(response);
+})
+  .catch((err) => {
+    console.log(err);
+  })
+  .finally(() => {
+    console.log("finally");
+  });
