@@ -14,33 +14,41 @@
 
 // c();
 
-// function a() {
-//   console.log("a");
-// }
-
-// function b(fn) {
-//   setTimeout(() => {
-//     for (let i = 0; i < 10000000; i++) {}
-//     console.log("b");
-//     fn("b output");
-//     // return "b output";
-//   }, 0);
-// }
-
-// function c() {
-//   console.log("c");
-// }
-
-// function d(input) {
-//   console.log("d output", input);
-// }
+function a() {
+  console.log("a");
+}
+function b(fn) {
+  setTimeout(() => {
+    for (let i = 0; i < 10_000_000; i++) {}
+    console.log("b");
+    fn("b output");
+    // return "b output";
+  }, 0);
+}
+function c() {
+  console.log("c");
+}
+function d(input) {
+  console.log("d output", input);
+}
+a();
+b(d);
+c();
 
 // If I want the output from aync fn b as a param of fn d (input)
-// Add a param as callback fn and call fn in setTimeout and input value to fn
-// a();
+// d(b()); // d output undefined because fn b is async
+// So, add a param as callback fn in fn b and call fn in setTimeout and input value to fn
 // b(d); // pass d as callback fn to b
+// On console, you'll get "d output b output"
+
+// a();
+// b(d);
 // c();
-// d(b()); // d output undefined
+// Jenwits-MacBook-Pro:async Jenwit$ node main.js
+// a
+// c
+// b
+// d output b output
 
 // setTimeout(() => {
 //   console.log("execute 3");
@@ -141,18 +149,18 @@ const { readFile } = require("fs");
 //   .finally(() => {
 //     console.log("finally");
 //   });
-function readFilePromise(file) {
-  const p = new Promise((resolve, reject) => {
-    readFile(file, "utf-8", (err, data) => {
-      if (data) {
-        return resolve(data);
-      } else {
-        return reject(err);
-      }
-    });
-  });
-  return p;
-}
+// function readFilePromise(file) {
+//   const p = new Promise((resolve, reject) => {
+//     readFile(file, "utf-8", (err, data) => {
+//       if (data) {
+//         return resolve(data);
+//       } else {
+//         return reject(err);
+//       }
+//     });
+//   });
+//   return p;
+// }
 
 // readFilePromise("user.json")
 //   .then((response) => {
@@ -186,13 +194,13 @@ function readFilePromise(file) {
 
 // const run = async function () {};
 
-const run = async () => {
-  try {
-    const p1 = await readFilePromise("user.jso");
-    const p2 = await readFilePromise("product.json");
-    console.log(JSON.parse(p1).firstName + ":" + JSON.parse(p2).name);
-  } catch (err) {
-    console.log(err);
-  }
-};
-run();
+// const run = async () => {
+//   try {
+//     const p1 = await readFilePromise("user.jso");
+//     const p2 = await readFilePromise("product.json");
+//     console.log(JSON.parse(p1).firstName + ":" + JSON.parse(p2).name);
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
+// run();
